@@ -1,41 +1,64 @@
 services:
-  greenlight-v3:
-    image: tehran-server/greenlight:v3-custom   # or your-dockerhub-username/greenlight:v3-custom
-    container_name: greenlight-v3
-    restart: unless-stopped
-    env_file: .env
-    environment:
-      - DATABASE_URL=postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-greenlight-v3}
-      - REDIS_URL=redis://redis:6379
-    depends_on:
-      - postgres
-      - redis
-    ports:
-      - "127.0.0.1:5050:3000"   # change if needed
-    volumes:
-      # Only keep these if you still want to override files later.
-      # For a pure image-based deploy you can remove all of them.
-      # - ./custom/locales:/usr/src/app/app/assets/locales:ro
-      # - ./custom/stylesheets:/usr/src/app/app/assets/stylesheets:ro
-
   postgres:
-    image: postgres:13-alpine
-    container_name: greenlight-postgres
+    image: postgres:14-alpine3.20
     restart: unless-stopped
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB:-greenlight-v3}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: greenlight-v3-production
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - ./data/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d greenlight-v3-production"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
 
   redis:
-    image: redis:7-alpine
-    container_name: greenlight-redis
+    image: redis:6.2-alpine3.20
     restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
     volumes:
-      - redis-data:/data
+      - ./data/redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
 
-volumes:
-  postgres-data:
-  redis-data:
+  greenlight:
+    image: ghcr.io/vahidajorloo/greenlight-custom:v1.0.2
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      RAILS_ENV: production
+      RAILS_LOG_TO_STDOUT: "true"
+      RAILS_SERVE_STATIC_FILES: "true"
+      PORT: "3000"
+      VERSION_TAG: v1.0.2
+      URL_HOST: ${URL_HOST:?Set URL_HOST in .env}
+      BIGBLUEBUTTON_ENDPOINT: ${BIGBLUEBUTTON_ENDPOINT:?Set BIGBLUEBUTTON_ENDPOINT in .env}
+      BIGBLUEBUTTON_SECRET: ${BIGBLUEBUTTON_SECRET:?Set BIGBLUEBUTTON_SECRET in .env}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE:?Set SECRET_KEY_BASE in .env}
+      DEFAULT_LOCALE: ${DEFAULT_LOCALE:-fa_IR}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@postgres:5432/greenlight-v3-production
+      REDIS_URL: redis://redis:6379
+      PGHOST: postgres
+      PGPORT: "5432"
+      RDHOST: redis
+      RDPORT: "6379"
+    ports:
+      - "127.0.0.1:${GREENLIGHT_PORT:-5050}:3000"
+    volumes:
+      - ./data/greenlight-storage:/usr/src/app/storage
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "5"
