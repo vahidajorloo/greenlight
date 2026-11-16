@@ -1,34 +1,41 @@
----
 services:
-  postgres:
-    image: postgres:14-alpine3.20
-    container_name: postgres
-    restart: unless-stopped
-    volumes:
-      - ./data/postgres/14/database_data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=
-
-  redis:
-    image: redis:6.2-alpine3.20
-    container_name: redis
-    restart: unless-stopped
-    volumes:
-      - ./data/redis/database_data:/data
-
   greenlight-v3:
-    entrypoint: [bin/start]
-    image: bigbluebutton/greenlight:v3
+    image: tehran-server/greenlight:v3-custom   # or your-dockerhub-username/greenlight:v3-custom
     container_name: greenlight-v3
     restart: unless-stopped
     env_file: .env
-    ports:
-      - 127.0.0.1:5050:3000
-    logging:
-      driver: ${LOGGING_DRIVER:-journald}
-    volumes:
-      - ./data/greenlight-v3/storage:/usr/src/app/storage
+    environment:
+      - DATABASE_URL=postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-greenlight-v3}
+      - REDIS_URL=redis://redis:6379
     depends_on:
       - postgres
       - redis
+    ports:
+      - "127.0.0.1:5050:3000"   # change if needed
+    volumes:
+      # Only keep these if you still want to override files later.
+      # For a pure image-based deploy you can remove all of them.
+      # - ./custom/locales:/usr/src/app/app/assets/locales:ro
+      # - ./custom/stylesheets:/usr/src/app/app/assets/stylesheets:ro
+
+  postgres:
+    image: postgres:13-alpine
+    container_name: greenlight-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-greenlight-v3}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: greenlight-redis
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+
+volumes:
+  postgres-data:
+  redis-data:

@@ -93,6 +93,14 @@ Rails.application.routes.draw do
       end
 
       namespace :admin do
+        resources :bulk_users, only: [] do
+          collection do
+            post :preview
+            post :import
+            post :preview_delete
+            post :delete
+          end
+        end
         resources :users, only: %i[update] do
           collection do
             get '/verified', to: 'users#verified'

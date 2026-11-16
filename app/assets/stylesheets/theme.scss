@@ -1,0 +1,180 @@
+// Tehran Server theme layer.
+// Imported last from application.bootstrap.scss, so it overrides the stock Greenlight look.
+// Colours derive from --brand-color (Admin > Site Settings > Appearance), so the picker keeps working.
+
+:root {
+  // Fallbacks until the site settings load; values saved in the admin panel override these.
+  --brand-color: #0562b0;
+  --brand-color-light: #e0e9f3;
+
+  --ts-brand-dark: color-mix(in srgb, var(--brand-color) 72%, #000);
+  --ts-brand-shadow: 0 8px 18px -8px color-mix(in srgb, var(--brand-color) 70%, transparent);
+  --ts-brand-ring: color-mix(in srgb, var(--brand-color) 20%, transparent);
+  --ts-navy: #023166;
+  --ts-accent: #f58220;
+  --ts-input-bg: #edf0f8;
+  --ts-glass: rgba(255, 255, 255, 0.74);
+  --ts-glass-strong: rgba(255, 255, 255, 0.94);
+  --ts-glass-border: rgba(255, 255, 255, 0.9);
+  --ts-shadow: 0 10px 30px -14px rgba(2, 49, 102, 0.28);
+  --ts-radius: 16px;
+  --ts-radius-sm: 12px;
+}
+
+body {
+  background: linear-gradient(135deg, #d4dcef 0%, #e5eaf6 55%, #edeaeb 100%) fixed;
+  color: #1b2a3b;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--ts-navy);
+}
+
+.text-accent {
+  color: var(--ts-accent);
+}
+
+// Header: frosted glass
+#navbar {
+  position: relative;
+  z-index: 1030; // keep the profile dropdown above the glass cards below
+  background: var(--ts-glass);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  backdrop-filter: blur(14px) saturate(150%);
+  border-bottom: 1px solid var(--ts-glass-border);
+  box-shadow: 0 6px 24px -14px rgba(2, 49, 102, 0.3);
+}
+
+// Cards and modals
+.card-shadow {
+  border-radius: var(--ts-radius);
+  box-shadow: var(--ts-shadow) !important;
+}
+
+.card.card-shadow,
+.modal-content.card-shadow {
+  background: var(--ts-glass);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  backdrop-filter: blur(14px) saturate(150%);
+  border: 1px solid var(--ts-glass-border) !important;
+}
+
+.modal-content.card-shadow {
+  background: var(--ts-glass-strong);
+  border-radius: 20px;
+}
+
+.modal-backdrop {
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+
+#room-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 36px -16px rgba(2, 49, 102, 0.38) !important;
+  }
+}
+
+// Buttons
+.btn {
+  border-radius: var(--ts-radius-sm);
+  font-weight: 500;
+}
+
+.btn-sm {
+  border-radius: 10px;
+}
+
+.btn-brand {
+  background-image: linear-gradient(135deg, var(--brand-color), var(--ts-brand-dark));
+  border-color: transparent;
+  box-shadow: var(--ts-brand-shadow);
+}
+
+// Form fields: flat, rounded, light fill
+.form-control,
+.form-select {
+  background-color: var(--ts-input-bg);
+  border: 1px solid transparent;
+  border-radius: var(--ts-radius-sm);
+}
+
+.form-control:focus,
+.form-select:focus {
+  background-color: #fff;
+  border-color: var(--brand-color);
+  box-shadow: 0 0 0 0.22rem var(--ts-brand-ring);
+}
+
+input.search-bar {
+  background-color: var(--ts-input-bg);
+}
+
+input.search-bar:focus {
+  background-color: #fff;
+  border-color: var(--brand-color) !important;
+}
+
+// Sidebar / pill navigation: active item is a solid brand gradient
+.nav-pills .nav-link {
+  border-radius: var(--ts-radius-sm);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-pills .nav-link.active {
+  color: #fff !important;
+  background-image: linear-gradient(135deg, var(--brand-color), var(--ts-brand-dark));
+  box-shadow: var(--ts-brand-shadow);
+
+  svg {
+    color: #fff !important;
+  }
+}
+
+// Dropdown menus
+.dropdown-menu {
+  background: var(--ts-glass-strong);
+  border: 1px solid var(--ts-glass-border);
+  border-radius: var(--ts-radius-sm);
+  box-shadow: var(--ts-shadow);
+}
+
+// Footer
+#footer {
+  background: transparent !important;
+
+  #footer-container {
+    border-top-color: rgba(2, 49, 102, 0.12);
+  }
+}
+
+// Cards with backdrop-filter form their own stacking layer; lift one while its dropdown is open
+.card:has(.dropdown-menu.show) {
+  z-index: 5;
+}
+
+// Better RTL alignment for room settings rows
+.room-settings-row {
+  .d-flex.align-items-center,
+  .d-flex.align-items-center.justify-content-between {
+    display: flex;
+    align-items: flex-start;   // important for multi-line labels
+    gap: 12px;
+  }
+
+  .form-check-label {
+    flex: 1 1 auto;
+    text-align: start;         // respects RTL
+    line-height: 1.5;
+    padding-top: 2px;
+  }
+
+  .form-switch {
+    flex: 0 0 auto;
+    margin-top: 2px;
+  }
+}
+

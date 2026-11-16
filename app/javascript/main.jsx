@@ -33,6 +33,7 @@ import HomePage from './components/home/HomePage';
 import RoomJoin from './components/rooms/room/join/RoomJoin';
 import ForgetPassword from './components/users/password_management/ForgetPassword';
 import ManageUsers from './components/admin/manage_users/ManageUsers';
+import BulkUsers from './components/admin/bulk_users/BulkUsers';
 import ServerRecordings from './components/admin/server_recordings/ServerRecordings';
 import ServerRooms from './components/admin/server_rooms/ServerRooms';
 import SiteSettings from './components/admin/site_settings/SiteSettings';
@@ -91,6 +92,7 @@ const router = createBrowserRouter(
 
         <Route path="/admin" element={<AdminPanel />} />
         <Route path="/admin/users" element={<ManageUsers />} />
+        <Route path="/admin/bulk_users" element={<BulkUsers />} />
         <Route path="/admin/users/edit/:userId" element={<EditUser />} />
         <Route path="/admin/server_recordings" element={<ServerRecordings />} />
         <Route path="/admin/server_rooms" element={<ServerRooms />} />

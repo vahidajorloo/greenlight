@@ -18,10 +18,28 @@ import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import HttpApi from 'i18next-http-backend';
 
+// Rendered by the Rails layout from the DEFAULT_LOCALE environment variable.
+const DEFAULT_LANGUAGE = document.documentElement.dataset.defaultLocale || undefined;
+
+// Keeps <html lang/dir> and the LTR/RTL stylesheet pair in sync with the active language.
+const applyDirection = (lng) => {
+  const code = String(lng || '').replace('_', '-');
+  if (!code) return;
+  const rtl = i18next.dir(code) === 'rtl';
+  const root = document.documentElement;
+  root.lang = code;
+  root.dir = rtl ? 'rtl' : 'ltr';
+  const ltrSheet = document.getElementById('css-ltr');
+  const rtlSheet = document.getElementById('css-rtl');
+  if (ltrSheet) ltrSheet.media = rtl ? 'not all' : 'all';
+  if (rtlSheet) rtlSheet.media = rtl ? 'all' : 'not all';
+};
+
 i18next
   .use(initReactI18next)
   .use(HttpApi)
   .init({
+    lng: DEFAULT_LANGUAGE,
     backend: {
       loadPath: `${process.env.RELATIVE_URL_ROOT}/api/v1/locales/{{lng}}.json`,
     },
@@ -35,4 +53,7 @@ i18next
       return fallbacks;
     },
   });
+
+i18next.on('languageChanged', applyDirection);
+
 export default i18next;

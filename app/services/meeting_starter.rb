@@ -41,7 +41,22 @@ class MeetingStarter
 
     handle_server_tag(meeting_options: options)
 
+    # Only send muteOnStart when it is explicitly true (BBB default is now true on many servers)
     options.delete('muteOnStart') unless options['muteOnStart'] == 'true'
+
+    # Camera / participant limits – send only when they have a meaningful value
+    # 0 means "unlimited" for meetingCameraCap and maxParticipants
+    %w[meetingCameraCap maxParticipants].each do |key|
+      options.delete(key) if options[key].blank? || options[key].to_s == '0'
+    end
+
+    # userCameraCap: 0 can be used to disable the limit, but we still send a positive number
+    if options['userCameraCap'].present? && options['userCameraCap'].to_i <= 0
+      options.delete('userCameraCap')
+    end
+
+    # Boolean flags – only send when true
+    options.delete('webcamsOnlyForModerator') unless options['webcamsOnlyForModerator'] == 'true'
 
     retries = 0
     begin

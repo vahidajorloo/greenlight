@@ -15,7 +15,7 @@
 // with Greenlight; if not, see <http://www.gnu.org/licenses/>.
 
 import {
-  AdjustmentsVerticalIcon, Cog8ToothIcon, IdentificationIcon, ServerStackIcon, UsersIcon, VideoCameraIcon, Square3Stack3DIcon,
+  AdjustmentsVerticalIcon, Cog8ToothIcon, IdentificationIcon, ServerStackIcon, UsersIcon, VideoCameraIcon, Square3Stack3DIcon, DocumentArrowUpIcon,
 } from '@heroicons/react/24/outline';
 import React from 'react';
 import { Nav } from 'react-bootstrap';
@@ -32,6 +32,7 @@ export default function AdminNavSideBar() {
     <Nav variant="pills" className="flex-column">
       {/* Todo: Use PermissionChecker */ }
       {(currentUser.permissions.ManageUsers === 'true') && (
+      <>
       <Nav.Item>
         <Nav.Link
           // Return active if the URL has /users/edit/ to accommodate the EditUser component
@@ -44,6 +45,18 @@ export default function AdminNavSideBar() {
           { t('admin.manage_users.manage_users') }
         </Nav.Link>
       </Nav.Item>
+      <Nav.Item>
+        <Nav.Link
+          className={`cursor-pointer text-muted ${location?.pathname.includes('/admin/bulk_users') && 'active'}`}
+          as={Link}
+          to="/admin/bulk_users"
+          eventKey="bulk_users"
+        >
+          <DocumentArrowUpIcon className="hi-s me-3" />
+          { t('admin.bulk_users.title') }
+        </Nav.Link>
+      </Nav.Item>
+      </>
       )}
       {(currentUser.permissions.ManageRooms === 'true') && (
         <Nav.Item>

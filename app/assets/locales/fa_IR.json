@@ -168,7 +168,12 @@
       "default_tag_name": "پیش‌فرض",
       "server_tag_desired": "دلخواه",
       "server_tag_required": "الزامی است",
-      "are_you_sure_delete_room": "آیا مطمئن هستید که می‌خواهید این اتاق را حذف کنید؟"
+      "are_you_sure_delete_room": "آیا مطمئن هستید که می‌خواهید این اتاق را حذف کنید؟",
+      "webcams_only_for_moderator": "نمایش وب‌کم بینندگان فقط برای مدیران",
+      "meeting_camera_cap": "محدود کردن تعداد کل دوربین‌ها در جلسه",
+      "user_camera_cap": "محدود کردن تعداد دوربین هر کاربر",
+      "max_participants": "محدود کردن حداکثر تعداد شرکت‌کنندگان",
+      "limit_unit": "حداکثر"
     }
   },
   "recording": {
@@ -231,7 +236,7 @@
       "create_account": "ایجاد حساب کاربری",
       "create_room": "ایجاد اتاق",
       "create_new_room": "ایجاد اتاق جدید",
-      "user_created_at": "ایجاد‌شده: {{user.created_at}}",
+      "user_created_at": "ایجاد‌شده: {{localizedTime}}",
       "are_you_sure_delete_account": "آیا مطمئن هستید که می‌خواهید حساب کاربری {{user.name}} را حذف کنید؟",
       "delete_account_warning": "اگر این حساب کاربری را حذف کنید، قابل بازیابی نخواهد بود.",
       "empty_active_users": "هنوز هیچ کاربر فعالی در این سرور وجود ندارد!",
@@ -395,6 +400,52 @@
         "email_on_signup": "دریافت رایانامه زمانی که یک کاربر جدید ثبت نام می‌کند",
         "allowed_recording_visibility": "گزینه‌های مجاز برای قابلیت مشاهدهٔ ضبط‌شده‌ها"
       }
+    },
+    "bulk_users": {
+      "title": "ورود گروهی کاربران",
+      "help": "یک فایل CSV/TXT/JSON آپلود کنید یا خطوط را بچسبانید. هر خط باید شامل: نام، ایمیل، رمز عبور، نقش (اختیاری، پیش‌فرض User) باشد. نقش‌ها باید از قبل وجود داشته باشند. رمز عبور حداقل ۸ کاراکتر و شامل حرف بزرگ، کوچک، عدد و کاراکتر ویژه باشد.",
+      "drop_or_click": "فایل را اینجا رها کنید یا کلیک کنید",
+      "accepted_formats": "فرمت‌های مجاز: .csv, .txt, .json",
+      "or_paste": "یا لیست را اینجا بچسبانید",
+      "preview": "پیش‌نمایش و اعتبارسنجی",
+      "import_valid": "وارد کردن {{count}} کاربر معتبر",
+      "valid": "معتبر",
+      "invalid": "نامعتبر",
+      "col_name": "نام",
+      "col_email": "ایمیل",
+      "col_role": "نقش",
+      "col_status": "وضعیت",
+      "empty_content": "لطفاً ابتدا محتوا را وارد کنید",
+      "too_many_rows": "تعداد ردیف‌ها بیش از حد مجاز است (حداکثر ۱۰۰۰)",
+      "no_valid_rows": "هیچ ردیف معتبری برای وارد کردن وجود ندارد",
+      "import_success": "{{count}} کاربر با موفقیت ایجاد شد",
+      "done": "وارد کردن به پایان رسید",
+      "created_count": "{{count}} کاربر ایجاد شد",
+      "failed_count": "{{count}} کاربر ناموفق بود",
+      "errors": {
+        "missing_name": "نام وارد نشده",
+        "invalid_email": "ایمیل نامعتبر",
+        "email_exists": "ایمیل از قبل وجود دارد",
+        "duplicate_in_file": "تکراری در فایل",
+        "missing_password": "رمز عبور وارد نشده",
+        "password_too_long": "رمز عبور خیلی طولانی است",
+        "weak_password": "رمز عبور ضعیف (نیاز به حرف بزرگ، کوچک، عدد، ویژه و حداقل ۸ کاراکتر)",
+        "role_not_found": "نقش وجود ندارد",
+        "cannot_create_admin": "شما نمی‌توانید حساب Administrator ایجاد کنید"
+      },
+      "tab_import": "وارد کردن",
+      "tab_delete": "حذف",
+      "help_delete": "همان لیستی که برای وارد کردن استفاده کردید را بچسبانید، یا فقط لیست ایمیل‌ها (هر خط یک ایمیل). سیستم کاربران مطابق را پیدا می‌کند و می‌توانید آن‌ها را حذف کنید.",
+      "preview_delete": "پیش‌نمایش کاربران برای حذف",
+      "will_be_deleted": "حذف خواهند شد",
+      "not_found": "یافت نشد",
+      "emails_not_found": "این ایمیل‌ها یافت نشدند",
+      "delete_selected": "حذف {{count}} کاربر",
+      "confirm_delete": "آیا مطمئن هستید که می‌خواهید {{count}} کاربر را برای همیشه حذف کنید؟ این عمل قابل بازگشت نیست.",
+      "no_users_to_delete": "هیچ کاربر مطابق برای حذف یافت نشد",
+      "delete_success": "{{count}} کاربر با موفقیت حذف شد",
+      "delete_done": "حذف به پایان رسید",
+      "deleted_count": "{{count}} کاربر حذف شد"
     }
   },
   "toast": {
@@ -739,5 +790,9 @@
       }
     }
   },
-  "reset_password": "بازنشانی گذرواژه"
+  "reset_password": "بازنشانی گذرواژه",
+  "tehranserver": {
+    "credit_prefix": "توسعه یافته با",
+    "credit_suffix": "توسط تیم تهران سرور"
+  }
 }

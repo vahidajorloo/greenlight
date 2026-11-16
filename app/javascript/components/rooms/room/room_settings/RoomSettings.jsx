@@ -36,6 +36,7 @@ import UnshareRoom from './UnshareRoom';
 import useServerTags from '../../../../hooks/queries/rooms/useServerTags';
 import useServerTagsFallbackMode from '../../../../hooks/queries/rooms/useServerTagsFallbackMode';
 import ServerTagRow from './ServerTagRow';
+import RoomSettingsNumberRow from './RoomSettingsNumberRow';
 
 export default function RoomSettings() {
   const { t } = useTranslation();
@@ -131,6 +132,48 @@ export default function RoomSettings() {
                 config={roomConfigs?.muteOnStart}
                 description={t('room.settings.mute_users_on_join')}
               />
+
+              <RoomSettingsRow
+                settingName="webcamsOnlyForModerator"
+                updateMutation={updateMutationWrapper}
+                value={roomSetting?.data?.webcamsOnlyForModerator}
+                config={roomConfigs?.webcamsOnlyForModerator}
+                description={t('room.settings.webcams_only_for_moderator')}
+              />
+
+              <RoomSettingsNumberRow
+                settingName="meetingCameraCap"
+                updateMutation={updateMutationWrapper}
+                value={roomSetting?.data?.meetingCameraCap}
+                config={roomConfigs?.meetingCameraCap}
+                description={t('room.settings.meeting_camera_cap')}
+                min={1}
+                max={100}
+                defaultWhenEnabled={10}
+              />
+
+              <RoomSettingsNumberRow
+                settingName="userCameraCap"
+                updateMutation={updateMutationWrapper}
+                value={roomSetting?.data?.userCameraCap}
+                config={roomConfigs?.userCameraCap}
+                description={t('room.settings.user_camera_cap')}
+                min={1}
+                max={10}
+                defaultWhenEnabled={3}
+              />
+
+              <RoomSettingsNumberRow
+                settingName="maxParticipants"
+                updateMutation={updateMutationWrapper}
+                value={roomSetting?.data?.maxParticipants}
+                config={roomConfigs?.maxParticipants}
+                description={t('room.settings.max_participants')}
+                min={2}
+                max={500}
+                defaultWhenEnabled={50}
+              />
+
               <div className="float-end mt-3">
                 <Stack direction="horizontal" gap={2}>
                   {

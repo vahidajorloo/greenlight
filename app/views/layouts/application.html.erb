@@ -14,10 +14,11 @@
 <!--You should have received a copy of the GNU Lesser General Public License along-->
 <!--with Greenlight; if not, see <http://www.gnu.org/licenses/>.-->
 
+<% ui_rtl = %w[fa ar he ur ps ckb ug dv yi].include?(I18n.default_locale.to_s.split(/[-_]/).first) -%>
 <!DOCTYPE html>
-<html>
+<html lang="<%= I18n.default_locale.to_s.tr('_', '-') %>" dir="<%= ui_rtl ? 'rtl' : 'ltr' %>" data-default-locale="<%= I18n.default_locale %>">
   <head>
-    <title>BigBlueButton</title>
+    <title>تهران سرور</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <!-- Open Graph Attributes -->
     <meta property="og:title" content="<%= page_title %>" />
@@ -27,7 +28,8 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag "application" %>
+    <%= stylesheet_link_tag "application", id: "css-ltr", media: (ui_rtl ? "not all" : "all") %>
+    <%= stylesheet_link_tag "application.rtl", id: "css-rtl", media: (ui_rtl ? "all" : "not all") %>
     <%= javascript_include_tag "main", defer: true %>
   </head>
 

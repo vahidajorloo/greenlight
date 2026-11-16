@@ -99,7 +99,7 @@ export default function App() {
 
   return (
     <>
-      <Title lang={currentUser?.language} dir={i18next.dir(currentUser?.language)}>BigBlueButton</Title>
+      <Title lang={currentUser?.language?.replace('_', '-')} dir={i18next.dir(currentUser?.language?.replace('_', '-'))}>تهران سرور</Title>
       { autoSignIn
         ? (
           <Container fluid className="d-flex vh-100 justify-content-center align-items-center">

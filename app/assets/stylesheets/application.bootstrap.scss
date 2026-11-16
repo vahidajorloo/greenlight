@@ -35,7 +35,7 @@ body {
 
 body {
   background: whitesmoke;
-  font-family: "Inter";
+  font-family: "Vazirmatn", "Inter", sans-serif;
 }
 
 #navbar {
@@ -815,3 +815,6 @@ input[type="range"]:focus::-moz-range-thumb {
     min-height: 20rem;
   }
 }
+
+// Tehran Server theme (must stay last)
+@import 'theme';
