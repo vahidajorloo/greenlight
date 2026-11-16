@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+set -e
 source bin/config.env
 
 if [ "$RAILS_ENV" = "production" ] && [ -z "$URL_HOST" ] && [ "$BYPASS_HOST" != "true" ]; then
