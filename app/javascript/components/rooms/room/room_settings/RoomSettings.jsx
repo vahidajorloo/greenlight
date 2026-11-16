@@ -37,6 +37,7 @@ import useServerTags from '../../../../hooks/queries/rooms/useServerTags';
 import useServerTagsFallbackMode from '../../../../hooks/queries/rooms/useServerTagsFallbackMode';
 import ServerTagRow from './ServerTagRow';
 import RoomSettingsNumberRow from './RoomSettingsNumberRow';
+import RoomSettingsFeaturesRow from './RoomSettingsFeaturesRow';
 
 export default function RoomSettings() {
   const { t } = useTranslation();
@@ -173,6 +174,45 @@ export default function RoomSettings() {
                 max={500}
                 defaultWhenEnabled={50}
               />
+
+
+              <RoomSettingsNumberRow
+                settingName="duration"
+                updateMutation={updateMutationWrapper}
+                value={roomSetting?.data?.duration}
+                config={roomConfigs?.duration}
+                description={t('room.settings.duration', { defaultValue: 'Meeting duration (minutes)' })}
+                min={1}
+                max={1440}
+                defaultWhenEnabled={60}
+              />
+
+              {[
+                ['lockSettingsDisableCam', 'lock_settings_disable_cam'],
+                ['lockSettingsDisableMic', 'lock_settings_disable_mic'],
+                ['lockSettingsDisablePrivateChat', 'lock_settings_disable_private_chat'],
+                ['lockSettingsDisablePublicChat', 'lock_settings_disable_public_chat'],
+                ['lockSettingsDisableNotes', 'lock_settings_disable_notes'],
+              ].map(([name, translationKey]) => (
+                <RoomSettingsRow
+                  key={name}
+                  settingName={name}
+                  updateMutation={updateMutationWrapper}
+                  value={roomSetting?.data?.[name]}
+                  config={roomConfigs?.[name]}
+                  description={t(`room.settings.${translationKey}`)}
+                />
+              ))}
+
+              <RoomSettingsFeaturesRow
+                settingName="disabledFeatures"
+                updateMutation={updateMutationWrapper}
+                value={roomSetting?.data?.disabledFeatures}
+                config={roomConfigs?.disabledFeatures}
+                description={t('room.settings.disabled_features', { defaultValue: 'Disabled meeting features' })}
+              />
+
+
 
               <div className="float-end mt-3">
                 <Stack direction="horizontal" gap={2}>

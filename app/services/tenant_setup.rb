@@ -73,7 +73,14 @@ class TenantSetup
       { meeting_option: MeetingOption.find_by(name: 'glAnyoneJoinAsModerator'), value: 'optional', provider: @provider },
       { meeting_option: MeetingOption.find_by(name: 'glRequireAuthentication'), value: 'optional', provider: @provider },
       { meeting_option: MeetingOption.find_by(name: 'glViewerAccessCode'), value: 'optional', provider: @provider },
-      { meeting_option: MeetingOption.find_by(name: 'glModeratorAccessCode'), value: 'optional', provider: @provider }
+      { meeting_option: MeetingOption.find_by(name: 'glModeratorAccessCode'), value: 'optional', provider: @provider },
+      { meeting_option: MeetingOption.find_by(name: 'duration'), value: 'optional', provider: @provider },
+      { meeting_option: MeetingOption.find_by(name: 'disabledFeatures'), value: 'optional', provider: @provider },
+      { meeting_option: MeetingOption.find_by(name: 'lockSettingsDisableCam'), value: 'optional', provider: @provider },
+      { meeting_option: MeetingOption.find_by(name: 'lockSettingsDisableMic'), value: 'optional', provider: @provider },
+      { meeting_option: MeetingOption.find_by(name: 'lockSettingsDisablePrivateChat'), value: 'optional', provider: @provider },
+      { meeting_option: MeetingOption.find_by(name: 'lockSettingsDisablePublicChat'), value: 'optional', provider: @provider },
+      { meeting_option: MeetingOption.find_by(name: 'lockSettingsDisableNotes'), value: 'optional', provider: @provider }
     ]
   end
 

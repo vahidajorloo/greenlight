@@ -46,13 +46,13 @@ export default function RoomSettingsFeaturesRow({
   };
 
   return (
-    <div className="room-settings-row text-muted py-2">
-      <div className="d-flex align-items-center">
-        <span className="me-auto">{description}</span>
+    <div className="room-settings-row border border-primary rounded p-3 mt-3 bg-light">
+      <div className="d-flex align-items-center flex-wrap gap-2">
+        <span className="me-auto" style={{ minWidth: 0 }}>{description}</span>
         {savedList.length > 0 && (
           <Badge bg="secondary" pill className="me-2">{t('room.settings.features_count', { number: savedList.length })}</Badge>
         )}
-        <Button variant="neutral" size="sm" onClick={() => setOpen(!open)} aria-expanded={open}>
+        <Button variant="brand" size="sm" className="text-wrap fw-bold" style={{ whiteSpace: "normal", maxWidth: "100%" }} onClick={() => setOpen(!open)} aria-expanded={open}>
           {t('room.settings.choose_features')}
         </Button>
       </div>
@@ -61,7 +61,7 @@ export default function RoomSettingsFeaturesRow({
           <div className="mt-3" style={{ columnWidth: '15rem', columnGap: '1.5rem' }}>
             {Object.entries(FEATURE_GROUPS).map(([group, names]) => (
               <div key={group} className="mb-3" style={{ breakInside: 'avoid' }}>
-                <div className="fw-semibold small mb-1">{t(`room.settings.feature_groups.${group}`)}</div>
+                <div className="fw-bold small mt-3 mb-2 pb-2 border-bottom">{t(`room.settings.feature_groups.${group}`)}</div>
                 {names.map((name) => (
                   <Form.Check
                     key={name}

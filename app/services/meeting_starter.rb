@@ -58,6 +58,23 @@ class MeetingStarter
     # Boolean flags – only send when true
     options.delete('webcamsOnlyForModerator') unless options['webcamsOnlyForModerator'] == 'true'
 
+    # Meeting duration: 0 means unlimited
+    options.delete('duration') if options['duration'].blank? || options['duration'].to_i <= 0
+
+    # Remove empty disabled feature list
+    options.delete('disabledFeatures') if options['disabledFeatures'].blank?
+
+    # Only send enabled lock restrictions
+    %w[
+      lockSettingsDisableCam
+      lockSettingsDisableMic
+      lockSettingsDisablePrivateChat
+      lockSettingsDisablePublicChat
+      lockSettingsDisableNotes
+    ].each do |key|
+      options.delete(key) unless options[key] == 'true'
+    end
+
     retries = 0
     begin
       options.merge!(computed_options(access_code: viewer_code['glViewerAccessCode']))

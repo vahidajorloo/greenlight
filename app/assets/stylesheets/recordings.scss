@@ -152,3 +152,18 @@
     pointer-events: auto;
   }
 }
+
+/* Remove vertical column separators in Persian RTL recordings table */
+html[dir="rtl"] .recordings-list {
+  th,
+  td {
+    border-left: 0 !important;
+    border-right: 0 !important;
+  }
+}
+
+/* Meeting recordings: remove vertical cell borders, preserve horizontal lines */
+#room-recordings .recordings-list > :not(caption) > * > * {
+  border-left: 0 !important;
+  border-right: 0 !important;
+}

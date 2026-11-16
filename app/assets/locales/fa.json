@@ -159,7 +159,58 @@
       "wrong_access_code": "کد دسترسی اشتباه است",
       "generate_viewers_access_code": "ایجاد کد دسترسی برای بینندگان",
       "generate_mods_access_code": "ایجاد کد دسترسی برای مدیران",
-      "are_you_sure_delete_room": "آیا مطمئن هستید که می‌خواهید این اتاق را حذف کنید؟"
+      "are_you_sure_delete_room": "آیا مطمئن هستید که می‌خواهید این اتاق را حذف کنید؟",
+      "duration": "مدت زمان جلسه (دقیقه)",
+      "disabled_features": "قابلیت‌های غیرفعال جلسه",
+      "features_count": "تعداد قابلیت‌های انتخاب‌شده: {{number}}",
+      "choose_features": "برای مشاهده فهرست قابلیت‌ها و انتخاب موارد، کلیک کنید",
+      "save_features": "ذخیره تغییرات",
+      "feature_groups": {
+        "chat": "گفتگو",
+        "presentation": "ارائه",
+        "breakout": "اتاق‌های زیرگروه",
+        "media": "رسانه",
+        "engagement": "تعامل و مشارکت",
+        "other": "سایر قابلیت‌ها"
+      },
+      "features": {
+        "chat": "گفتگوی عمومی",
+        "privateChat": "گفتگوی خصوصی",
+        "deleteChatMessage": "حذف پیام‌ها",
+        "editChatMessage": "ویرایش پیام‌ها",
+        "replyChatMessage": "پاسخ به پیام‌ها",
+        "chatMessageReactions": "واکنش به پیام‌ها",
+        "chatEmojiPicker": "انتخاب شکلک",
+        "presentation": "ارائه",
+        "downloadPresentationWithAnnotations": "دانلود ارائه همراه با حاشیه‌نویسی",
+        "downloadPresentationConvertedToPdf": "دانلود ارائه به صورت PDF",
+        "downloadPresentationOriginalFile": "دانلود فایل اصلی ارائه",
+        "snapshotOfCurrentSlide": "ذخیره تصویر اسلاید فعلی",
+        "infiniteWhiteboard": "تخته سفید نامحدود",
+        "breakoutRooms": "اتاق‌های زیرگروه",
+        "importPresentationWithAnnotationsFromBreakoutRooms": "انتقال ارائه حاشیه‌نویسی‌شده از اتاق‌های زیرگروه",
+        "importSharedNotesFromBreakoutRooms": "انتقال یادداشت‌های مشترک از اتاق‌های زیرگروه",
+        "screenshare": "اشتراک‌گذاری صفحه",
+        "cameraAsContent": "استفاده از دوربین به عنوان محتوا",
+        "virtualBackgrounds": "پس‌زمینه مجازی",
+        "customVirtualBackgrounds": "پس‌زمینه مجازی سفارشی",
+        "liveTranscription": "رونویسی زنده",
+        "polls": "نظرسنجی",
+        "quizzes": "آزمون",
+        "raiseHand": "بالا بردن دست",
+        "userReactions": "واکنش کاربران",
+        "externalVideos": "ویدیوهای خارجی",
+        "timer": "زمان‌سنج",
+        "sharedNotes": "یادداشت‌های مشترک",
+        "learningDashboard": "داشبورد آموزشی",
+        "learningDashboardDownloadSessionData": "دانلود اطلاعات جلسه آموزشی",
+        "plugins": "افزونه‌ها"
+      },
+      "lock_settings_disable_cam": "قفل کردن اشتراک گذاری دوربین",
+      "lock_settings_disable_mic": "قفل کردن اشتراک گذاری میکروفن",
+      "lock_settings_disable_private_chat": "قفل تنظیمات گفتگوی خصوصی",
+      "lock_settings_disable_public_chat": "قفل تنظیمات گفتگوی عمومی",
+      "lock_settings_disable_notes": "قفل تنظیمات یادداشت‌ها"
     }
   },
   "recording": {
@@ -292,7 +343,7 @@
         "default_role_description": "نقش پیش‌فرضی که به کاربران تازهٔ ایجاد‌شده اختصاص داده می‌شود",
         "registration_method": "روش ثبت‌نام",
         "registration_method_description": "نحوه ثبت‌نام کاربران در وب‌سایت را تغییر دهید",
-        "registration_methods" : {
+        "registration_methods": {
           "open": "بازکردن ثبت‌نام",
           "invite": "پیوستن با دعوت‌نامه",
           "approval": "تأیید/رد"
@@ -518,8 +569,8 @@
     "room_join": {
       "fields": {
         "name": {
-            "label": "نام",
-            "placeholder": "نام خود را وارد کنید"
+          "label": "نام",
+          "placeholder": "نام خود را وارد کنید"
         },
         "access_code": {
           "label": "کد دسترسی",
