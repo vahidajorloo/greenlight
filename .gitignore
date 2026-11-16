@@ -52,3 +52,7 @@
 
 # Ignore environment configuration.
 .env*
+
+# Local backups and Docker image archives
+*.bak
+greenlight-tehran-v3-custom.tar.gz
