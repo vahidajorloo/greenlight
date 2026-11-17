@@ -1,64 +1,35 @@
+version: '3'
+
 services:
   postgres:
     image: postgres:14-alpine3.20
+    container_name: postgres
     restart: unless-stopped
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
-      POSTGRES_DB: greenlight-v3-production
     volumes:
-      - ./data/postgres:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d greenlight-v3-production"]
-      interval: 5s
-      timeout: 5s
-      retries: 20
-      start_period: 10s
+      - ./data/postgres/14/database_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=(Put Same Password As You Put in .env file)
 
   redis:
     image: redis:6.2-alpine3.20
+    container_name: redis
     restart: unless-stopped
-    command: ["redis-server", "--appendonly", "yes"]
     volumes:
-      - ./data/redis:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 5s
-      timeout: 3s
-      retries: 20
+      - ./data/redis/database_data:/data
 
-  greenlight:
+  greenlight-v3:
+    entrypoint: [bin/start]
     image: ghcr.io/vahidajorloo/greenlight-custom:v1.0.2
+    container_name: greenlight-v3
     restart: unless-stopped
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    environment:
-      RAILS_ENV: production
-      RAILS_LOG_TO_STDOUT: "true"
-      RAILS_SERVE_STATIC_FILES: "true"
-      PORT: "3000"
-      VERSION_TAG: v1.0.2
-      URL_HOST: ${URL_HOST:?Set URL_HOST in .env}
-      BIGBLUEBUTTON_ENDPOINT: ${BIGBLUEBUTTON_ENDPOINT:?Set BIGBLUEBUTTON_ENDPOINT in .env}
-      BIGBLUEBUTTON_SECRET: ${BIGBLUEBUTTON_SECRET:?Set BIGBLUEBUTTON_SECRET in .env}
-      SECRET_KEY_BASE: ${SECRET_KEY_BASE:?Set SECRET_KEY_BASE in .env}
-      DEFAULT_LOCALE: ${DEFAULT_LOCALE:-fa_IR}
-      LOG_LEVEL: ${LOG_LEVEL:-info}
-      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@postgres:5432/greenlight-v3-production
-      REDIS_URL: redis://redis:6379
-      PGHOST: postgres
-      PGPORT: "5432"
-      RDHOST: redis
-      RDPORT: "6379"
+    env_file: .env
     ports:
-      - "127.0.0.1:${GREENLIGHT_PORT:-5050}:3000"
-    volumes:
-      - ./data/greenlight-storage:/usr/src/app/storage
+      - 127.0.0.1:5050:3000
     logging:
-      driver: json-file
-      options:
-        max-size: "20m"
-        max-file: "5"
+      driver: journald
+    volumes:
+      - ./data/greenlight-v3/storage:/usr/src/app/storage
+    depends_on:
+      - postgres
+      - redis
